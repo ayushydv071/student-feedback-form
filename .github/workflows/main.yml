@@ -19,6 +19,6 @@ jobs:
           if grep -q "@niet.co.in" app.js; then
             echo "Success: NIET email domain rule is present in app.js."
           else
-            echo "Error: Validation rule for '@niet.co.in' was not found in script.js!"
+            echo "Error: Validation rule for '@niet.co.in' was not found in app.js!"
             exit 1
           fi
