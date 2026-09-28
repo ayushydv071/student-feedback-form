@@ -1,0 +1,24 @@
+name: Validate NIET Email Restriction
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  verify-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Check for mandatory NIET domain rule
+        run: |
+          echo "Verifying that script.js enforces the @niet.co.in domain restriction..."
+          if grep -q "@niet.co.in" script.js; then
+            echo "Success: NIET email domain rule is present in script.js."
+          else
+            echo "Error: Validation rule for '@niet.co.in' was not found in script.js!"
+            exit 1
+          fi
