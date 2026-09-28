@@ -19,8 +19,6 @@ document.getElementById('feedbackForm').addEventListener('submit', function(e) {
     }
 
    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const nietEmailRegex = /^[^\s@]+@niet\.co\.in$/i;
 
     if (email.value.trim() === '') {
 
@@ -29,14 +27,7 @@ document.getElementById('feedbackForm').addEventListener('submit', function(e) {
 
         isValid = false;
 
-    } else if (!emailRegex.test(email.value.trim())) {
-
-        document.getElementById('emailError').textContent =
-            'Please enter a valid email.';
-
-        isValid = false;
-
-    } else if (!nietEmailRegex.test(email.value.trim())) {
+    } else if (!isNietEmail(email.value.trim())) {
 
         document.getElementById('emailError').textContent =
             'Only NIET email addresses ending with @niet.co.in are allowed.';
