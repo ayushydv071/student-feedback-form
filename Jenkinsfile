@@ -1,7 +1,6 @@
 pipeline {
 agent any
 
-
 stages {
     stage('Checkout') {
         steps {
@@ -12,21 +11,37 @@ stages {
 
     stage('Test HTML Form') {
         steps {
-            sh '''
-                set -eu
-                test -f index.html
-                echo "PASS: index.html exists"
+            bat '''
+                @echo off
 
-                grep -qi '<form' index.html
-                echo "PASS: Form exists"
+                if not exist index.html (
+                    echo FAIL: index.html not found
+                    exit /b 1
+                )
+                echo PASS: index.html exists
 
-                grep -qi 'name' index.html
-                echo "PASS: Name field exists"
+                findstr /i /c:"<form" index.html >nul
+                if errorlevel 1 (
+                    echo FAIL: Form not found
+                    exit /b 1
+                )
+                echo PASS: Form exists
 
-                grep -qi 'email' index.html
-                echo "PASS: Email field exists"
+                findstr /i "name" index.html >nul
+                if errorlevel 1 (
+                    echo FAIL: Name field reference not found
+                    exit /b 1
+                )
+                echo PASS: Name field reference exists
 
-                echo "All HTML form tests passed!"
+                findstr /i "email" index.html >nul
+                if errorlevel 1 (
+                    echo FAIL: Email field reference not found
+                    exit /b 1
+                )
+                echo PASS: Email field reference exists
+
+                echo All HTML form tests passed!
             '''
         }
     }
@@ -34,8 +49,9 @@ stages {
 
 post {
     success {
-        echo 'BUILD SUCCESS: All HTML tests passed.'
+        echo 'BUILD SUCCESS: HTML tests passed.'
     }
+
     failure {
         echo 'BUILD FAILURE: HTML tests failed.'
     }
