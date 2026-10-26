@@ -1,7 +1,7 @@
 pipeline {
 agent any
 
-```
+
 stages {
     stage('Checkout') {
         steps {
@@ -40,6 +40,6 @@ post {
         echo 'BUILD FAILURE: HTML tests failed.'
     }
 }
-```
+
 
 }
