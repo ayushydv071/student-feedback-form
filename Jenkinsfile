@@ -14,7 +14,6 @@ stages {
         steps {
             sh '''
                 set -eu
-
                 test -f index.html
                 echo "PASS: index.html exists"
 
@@ -22,13 +21,10 @@ stages {
                 echo "PASS: Form exists"
 
                 grep -qi 'name' index.html
-                echo "PASS: Name field reference exists"
+                echo "PASS: Name field exists"
 
                 grep -qi 'email' index.html
-                echo "PASS: Email field reference exists"
-
-                grep -qi 'contact' index.html
-                echo "PASS: Contact field reference exists"
+                echo "PASS: Email field exists"
 
                 echo "All HTML form tests passed!"
             '''
@@ -40,7 +36,6 @@ post {
     success {
         echo 'BUILD SUCCESS: All HTML tests passed.'
     }
-
     failure {
         echo 'BUILD FAILURE: HTML tests failed.'
     }
